@@ -119,7 +119,7 @@ torch==2.1.2
 torchaudio==2.1.2
 torchmetrics==1.3.0
 torchvision==0.16.2
-tqdm==4.66.1
+tqdm==4.66.3
 traitlets==5.14.1
 transformers==4.36.2
 triton==2.1.0
