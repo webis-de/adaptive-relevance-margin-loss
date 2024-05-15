@@ -31,7 +31,7 @@ docstring-parser==0.15
 editor==1.6.5
 exceptiongroup==1.2.0
 faiss-gpu==1.7.2
-fastapi==0.109.0
+fastapi==0.109.1
 filelock==3.13.1
 fonttools==4.47.2
 frozenlist==1.4.1
