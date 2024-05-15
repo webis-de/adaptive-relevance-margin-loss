@@ -1,0 +1,45 @@
+# lightning.pytorch==2.0.0
+seed_everything: 166613 # For reproducibility
+trainer:
+  precision: 16-mixed
+  enable_checkpointing: true
+  default_root_dir: "./checkpoints"
+  logger:
+    - class_path: lightning.pytorch.loggers.WandbLogger
+      init_args:
+        project: 'sigir24-in-batch-neutrals-loss'
+        entity: 'lgienapp'
+        log_model: true
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        every_n_train_steps: 1_000
+        filename: 'epoch={epoch}-step={step}'
+        auto_insert_metric_name: False
+  max_epochs: 1
+  limit_train_batches: 20_000
+  log_every_n_steps: 10
+  val_check_interval: 1_000
+model:
+  class_path: src.model.MarginRankingModel
+  init_args:
+    pretrained_model_name_or_path: 'microsoft/mpnet-base'
+    learning_rate: 5e-6
+    weight_decay: 1e-6
+    target: 1
+    in_batch: False
+    error_fn: 'l2'
+data:
+  class_path: src.data.MarginRankingDataModule
+  init_args:
+    train_dataset_path:
+      - data/processed/msmarco-train.parquet
+    val_dataset_path:
+      - data/processed/trec-dl-2019.parquet
+    shuffle: true
+    train_batch_size: 128
+    val_batch_size: 128
+    pretrained_tokenizer_name_or_path: ${model.init_args.pretrained_model_name_or_path}
+    max_query_length: 20
+    max_doc_length: 200
+    num_workers: 8

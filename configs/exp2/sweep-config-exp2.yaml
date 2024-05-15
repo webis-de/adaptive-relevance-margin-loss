@@ -1,0 +1,11 @@
+program: scripts/sweep-agent.py
+method: grid
+parameters:
+  model.init_args.target:
+    values: ['adaptive']
+  model.init_args.pretrained_model_name_or_path:
+    values: [ 'microsoft/mpnet-base', 'distilbert/distilbert-base-uncased', 'FacebookAI/roberta-base' ]
+  model.init_args.in_batch:
+    values: [True, False]
+  data.init_args.train_batch_size:
+    values: [ 128, 64, 32 ]

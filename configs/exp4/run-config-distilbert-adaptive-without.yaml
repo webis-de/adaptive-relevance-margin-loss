@@ -1,0 +1,55 @@
+# lightning.pytorch==2.0.0
+seed_everything: 153201820 # For reproducibility
+trainer:
+  accelerator: auto
+  strategy: auto
+  devices: auto
+  num_nodes: 1
+  precision: 16-mixed
+  accumulate_grad_batches: 1
+  default_root_dir: "./checkpoints"
+  logger:
+    - class_path: lightning.pytorch.loggers.WandbLogger
+      init_args:
+        project: 'sigir24-in-batch-neutrals-loss'
+        entity: 'lgienapp'
+        log_model: true
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.EarlyStopping
+      init_args:
+        monitor: "val/RetrievalNormalizedDCG@10"
+        min_delta: 0.00
+        patience: 16
+        verbose: False
+        mode: "max"
+    - class_path: lightning.pytorch.callbacks.LearningRateMonitor
+      init_args:
+        logging_interval: 'step'
+  max_epochs: 1
+  log_every_n_steps: 10
+  val_check_interval: 500
+model:
+  class_path: src.model.MarginRankingModel
+  init_args:
+    pretrained_model_name_or_path: 'distilbert/distilbert-base-uncased'
+    learning_rate: 5e-7
+    weight_decay: 1e-6
+    target: 'adaptive'
+    in_batch: false
+    error_fn: 'l2'
+data:
+  class_path: src.data.MarginRankingDataModule
+  init_args:
+    train_dataset_path:
+      - data/processed/msmarco-train.parquet
+    val_dataset_path:
+      #- data/processed/trec-dl-2019.parquet
+      - data/processed/trec-dl-2020.parquet
+    shuffle: true
+    train_batch_size: 128
+    val_batch_size: 128
+    pretrained_tokenizer_name_or_path: ${model.init_args.pretrained_model_name_or_path}
+    max_query_length: 20
+    max_doc_length: 200
+    num_workers: 4
+ckpt_path: null

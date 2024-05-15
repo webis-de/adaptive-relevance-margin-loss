@@ -1,0 +1,46 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  Learning Effective Representations for Retrieval using
+  Self-Distillation with Adaptive Relevance Margins
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Lukas
+    family-names: Gienapp
+    affiliation: Leipzig University & ScaDS.AI
+    orcid: 'https://orcid.org/0000-0001-5707-3751'
+  - given-names: Niklas
+    family-names: Deckers
+    affiliation: University of Kassel & ScaDS.AI & hessian.AI
+    orcid: 'https://orcid.org/0000-0001-6803-1223'
+  - given-names: Harrisen
+    family-names: Scells
+    affiliation: Leipzig University
+    orcid: 'https://orcid.org/0000-0001-9578-7157'
+  - given-names: Martin
+    family-names: Potthast
+    affiliation: University of Kassel & ScaDS.AI & hessian.AI
+    orcid: 'https://orcid.org/0000-0003-2451-0665'
+abstract: >
+  Representation-based retrieval models, so-called
+  bi-encoders, estimate the relevance of a document to a
+  query by calculating the similarity of their respective
+  embeddings. Current state-of-the-art bi-encoders are
+  trained using an expensive training regime involving
+  knowledge distillation from a teacher model and extensive
+  batch-sampling techniques. Instead of relying on a teacher
+  model, we contribute a novel parameter-free loss function
+  for self-supervision that exploits the pre-trained text
+  similarity capabilities of the encoder model as a training
+  signal, eliminating the need for batch sampling by
+  performing implicit hard negative mining. We explore the
+  capabilities of our proposed approach through extensive
+  ablation studies, demonstrating that self-distillation can
+  match the effectiveness of teacher-distillation approaches
+  while requiring only a fraction of the data and compute.
+license: MIT
