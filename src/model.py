@@ -232,5 +232,4 @@ class MarginRankingModel(LightningModule):
         self.log("loss/target/mean", target.mean())
         self.log("loss/target/min", target.min())
         self.log("loss/target/max", target.max())
-        self.log("loss/target/std", target.std())
         return loss

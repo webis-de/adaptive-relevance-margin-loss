@@ -103,26 +103,6 @@ class MarginLoss(torch.nn.Module):
             if isinstance(target, float):
                 # If we are using static margins, calculate the actual doc similarities we're interested in
                 target = self.similarity(pos_doc_emb, neg_doc_emb) / 2 + 0.5
-            # target = self.cayley_menger(qry_emb, pos_doc_emb, neg_doc_emb)
             return loss, target
         else:
             return loss
-
-    def cayley_menger(
-        self, qry_emb: torch.Tensor, pos_doc_emb: torch.Tensor, neg_doc_emb: torch.Tensor
-    ) -> torch.Tensor:
-        """
-        Calculates the simplex volume spanned by query, positive, negative and origin.
-        If this volume goes towards 0, all points are on a plane.
-
-        https://en.wikipedia.org/wiki/Cayley–Menger_determinant
-        """
-        origin = torch.zeros_like(qry_emb)  # B x 768
-        stack = torch.stack([qry_emb, pos_doc_emb, neg_doc_emb, origin], dim=1)  # Shape B x 4 x 768
-        dist_squared = torch.cdist(stack, stack).square()  # Shape B x 4 x 4
-        tmp = torch.ones(dist_squared.shape[0], 1, 4).to(dist_squared.device)
-        m_det = torch.cat([dist_squared, tmp], dim=1)  # Shape B x 5 x 4
-        tmp = torch.ones(dist_squared.shape[0], 5, 1).to(dist_squared.device)
-        tmp[:, -1, 0] = 0
-        cayley_menger_matrix = torch.cat([m_det, tmp], dim=2)  # Shape (B x 5 x 5)
-        return cayley_menger_matrix.det()  # Shape B
