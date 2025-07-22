@@ -51,4 +51,25 @@ python3 main.py fit -c <path-to-config-file>
 ```
 
 
+## Citation
+
+If you use this code in your research, please cite:
+
+```bib
+@InProceedings{gienapp:2025b,
+  address =                  {New York},
+  author =                   {Lukas Gienapp and Niklas Deckers and Martin Potthast and Harrisen Scells},
+  booktitle =                {15th International Conference on Innovative Concepts and Theories in Information Retrieval (ICTIR 2025)},
+  doi =                      {10.1145/3731120.3744594},
+  editor =                   {Hamed Zamani and Laura Dietz and Benjamin Piwowarski and Sebastian Bruch},
+  isbn =                     {979-8-4007-1861-8/2025/07},
+  month =                    jul,
+  pages =                    {275--285},
+  publisher =                {ACM},
+  site =                     {Padua, Italy},
+  title =                    {{Learning Effective Representations for Retrieval Using Self-Distillation with Adaptive Relevance Margins}},
+  year =                     2025
+}
+```
+
 --------
